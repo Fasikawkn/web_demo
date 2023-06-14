@@ -1,0 +1,33 @@
+# # This is a basic workflow to help you get started with Actions
+name: Build
+
+# # Controls when the workflow will run
+on:
+  pull_request:
+    branches: 
+      - main
+      - dev
+    types: [closed]
+
+jobs:
+
+  build:
+      runs-on: ubuntu-latest
+      if: ${{ github.event.pull_request.merged }}
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        - name: Build Application
+          uses: actions/setup-java@v3.9.0
+          with:
+            distribution: 'zulu'
+            java-version: '11'
+        - uses: subosito/flutter-action@v2.4.0
+          id: build_application
+          with:
+            flutter-version: '3.10.2'
+        - run: flutter pub get
+        # - run: flutter format --set-exit-if-changed
+        # - run: flutter analyze
+        # - run: flutter test
