@@ -14,14 +14,21 @@ jobs:
       my_secret: ${{secrets.commit_secret}}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: 'dev'
-      - run: flutter config --enable-web
-      - run: flutter pub get
-      - run: flutter build web --release
-      - run: |
+       - name: Checkout
+         uses: actions/checkout@v3
+
+       - name: Build Application
+         uses: actions/setup-java@v3.9.0
+         with:
+            distribution: 'zulu'
+            java-version: '11'
+       - uses: subosito/flutter-action@v2.4.0
+         id: build_application
+         with:
+            flutter-version: '3.10.2'
+       - run: flutter pub get
+       - run: flutter build web --release
+       - run: |
           cd build/web
           git init
           git config --global user.email fasikawkn@gmail.com
