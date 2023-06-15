@@ -36,6 +36,6 @@ jobs:
           git status
           git remote add origin https://${{secrets.commit_secret}}@github.com/Fasikawkn/web_demo.git
           git checkout -b gh-pages
-          git add --all
+          git add .
           git commit -m "update"
           git push origin gh-pages -f
